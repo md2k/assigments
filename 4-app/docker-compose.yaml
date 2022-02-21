@@ -1,0 +1,13 @@
+version: "3.9"
+
+services:
+  web-app-go:
+    container_name: web-app-go
+    build:
+      context: .
+      dockerfile: ./Dockerfile-go
+    ports:
+      - 8080:3000
+    volumes:
+      - ./web-app-go:/home/docker/app
+    command: ./start.sh

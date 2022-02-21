@@ -1,0 +1,22 @@
+# Base layer
+FROM python:3.8.12 AS base
+
+# Add user docker, we won't user root
+RUN addgroup --gid 1000 docker && useradd -g 1000 -u 1000 -s /bin/bash -m docker \
+	&& mkdir /home/docker/app \
+	&& chown -R docker:docker /home/docker
+
+
+ENV LC_ALL C.UTF-8
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US.UTF-8
+
+# App Layer
+FROM base AS app
+
+ADD --chown=docker:docker ./src /home/docker/app
+RUN python3 -m pip install -r ./home/docker/app/requirements.txt
+
+USER docker
+WORKDIR /home/docker/app
+CMD ["/bin/bash"]

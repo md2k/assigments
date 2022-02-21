@@ -1,0 +1,18 @@
+apiVersion: v1
+data:
+  app.ini: |
+    [uwsgi]
+    module = wsgi:app
+    master = true
+    processes = 5
+    http-socket = 0.0.0.0:8600
+    socket = /tmp/app_socket.sock
+    chmod-socket = 660
+    vacuum = true
+    die-on-term = true
+kind: ConfigMap
+metadata:
+  name: flask-demo-app
+  labels:
+    app.kubernetes.io/name: flask-demo-app
+    app.kubernetes.io/managed-by: kubectl-apply

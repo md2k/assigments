@@ -1,0 +1,14 @@
+version: "3.9"
+
+services:
+  flask:
+    container_name: flask
+    build:
+      context: .
+      dockerfile: ../misc/Dockerfile-docker
+    ports:
+      - 8080:8600
+    volumes:
+      - ./src:/home/docker/app
+      - ./app.ini:/home/docker/app/app.ini:ro # overwrite repo's defined uwsgi config
+    command: uwsgi --ini app.ini --need-app
